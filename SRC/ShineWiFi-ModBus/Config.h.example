@@ -13,15 +13,17 @@
 // The serial port is the same used for the communication to the inverter.
 // Enabling this feature can cause problems with the inverter communication!
 // For ShineWiFi-S everything seems to work perfect even though this flag is set
-#define ENABLE_DEBUG_OUTPUT 1
+#define ENABLE_DEBUG_OUTPUT 0
 
 // Setting this define to 1 will enable a web page (<ip>/debug) where debug messages can be displayed
-#define ENABLE_WEB_DEBUG 0
+#define ENABLE_WEB_DEBUG 1
 
 // Setting this flag to 1 will simulate the inverter
 // This could be helpful if it is night and the inverter is not working or
 // during development where the stick is not connected to the inverter
+// if Simulating the Inverter we've to set a Device Type this could be ShineWiFi_X or ShineWiFi_S
 #define SIMULATE_INVERTER 0
+#define SIMULATE_DEVICE ShineWiFi_X
 
 // Data of the Wifi access point
 // Default IP 192.168.4.1
@@ -38,7 +40,6 @@
 #define AP_BUTTON_PRESSED ( analogRead(A0) < 50 )
 // For generic EPS8622 boards you can use a digital pin of your choice
 // #define AP_BUTTON_PRESSED ( digitalRead(1) == HIGH )
-
 
 #if PINGER_SUPPORTED == 1
 #define GATEWAY_IP IPAddress(192, 168, 178, 1)
