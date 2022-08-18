@@ -132,7 +132,7 @@ String mqtttopic = "";
 String mqttuser = "";
 String mqttpwd = "";
 
-char JsonString[MQTT_MAX_PACKET_SIZE] = strcat("{\"Status\": \"Disconnected\",\"Seraial\": \"",strcat(WiFi.macAddress(),"\"}")) ;
+char JsonString[MQTT_MAX_PACKET_SIZE] = "{\"Status\": \"Disconnected\"}";
 
 // -------------------------------------------------------
 // Check the WiFi status and reconnect if necessary
@@ -315,8 +315,8 @@ void setup()
     mqttpwd = load_from_file(secretfile, "");
 
     WiFi.hostname(HOSTNAME);
-    WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP    
-
+    WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP
+   
     #if MQTT_SUPPORTED == 1
         custom_mqtt_server = new WiFiManagerParameter("server", "mqtt server", mqttserver.c_str(), 40);
         custom_mqtt_port = new WiFiManagerParameter("port", "mqtt port", mqttport.c_str(), 6);
@@ -707,7 +707,8 @@ void CreateJson(char *Buffer)
   sprintf(Buffer, "%s  \"OperatingTime\": %u,\r\n",     Buffer, Inverter.GetOperatingTime());
   sprintf(Buffer, "%s  \"Temperature\": %.1f,\r\n",     Buffer, Inverter.GetInverterTemperature());
   sprintf(Buffer, "%s  \"AccumulatedEnergy\": %d,\r\n", Buffer, lAccumulatedEnergy / 3600);
-  sprintf(Buffer, "%s  \"Cnt\": %u\r\n",                Buffer, u16PacketCnt);
+  sprintf(Buffer, "%s  \"Cnt\": %u,\r\n",               Buffer, u16PacketCnt);
+  sprintf(Buffer, "%s  \"Mac\": \"%s\"\r\n",            Buffer, WiFi.macAddress().c_str());
   sprintf(Buffer, "%s}\r\n", Buffer);
 #else
   #warning simulating the inverter
@@ -724,7 +725,8 @@ void CreateJson(char *Buffer)
   sprintf(Buffer, "%s  \"OperatingTime\": 123456,\r\n",  Buffer);
   sprintf(Buffer, "%s  \"Temperature\": 21.12,\r\n",     Buffer);
   sprintf(Buffer, "%s  \"AccumulatedEnergy\": 320,\r\n", Buffer);
-  sprintf(Buffer, "%s  \"Cnt\": %u\r\n",                 Buffer, u16PacketCnt);
+  sprintf(Buffer, "%s  \"Cnt\": %u,\r\n",                Buffer, u16PacketCnt);
+  sprintf(Buffer, "%s  \"Mac\": \"%s\"\r\n",             Buffer, WiFi.macAddress().c_str());
   sprintf(Buffer, "%s}", Buffer);
 #endif // SIMULATE_INVERTER
 }
